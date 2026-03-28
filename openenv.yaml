@@ -1,0 +1,112 @@
+name: supply-chain-disruption-triage
+version: "1.0.0"
+description: >
+  An agent environment simulating real-world supply chain disruption triage.
+  The agent receives live disruption signals (supplier failures, port delays,
+  price spikes, inventory shortfalls) and must re-allocate purchase orders
+  across alternate vendors to minimize cost, delay, and stockout risk.
+  Graded on a multi-objective reward function with partial credit.
+
+tags:
+  - openenv
+  - supply-chain
+  - operations
+  - multi-objective
+  - real-world
+
+author: openenv-submission
+license: MIT
+
+observation_space:
+  type: object
+  description: Current supply chain state including orders, suppliers, disruptions, and inventory
+  fields:
+    - name: disruptions
+      type: array
+      description: Active disruption events (delays, failures, shortages, price spikes)
+    - name: pending_orders
+      type: array
+      description: Purchase orders awaiting fulfillment
+    - name: suppliers
+      type: array
+      description: Available suppliers with capacity, cost, lead time, reliability
+    - name: inventory
+      type: object
+      description: Current stock levels per SKU
+    - name: demand_forecast
+      type: object
+      description: Projected demand per SKU for the next 14 days
+    - name: step
+      type: integer
+      description: Current step number in the episode
+    - name: budget_remaining
+      type: float
+      description: Remaining procurement budget
+    - name: task_description
+      type: string
+      description: Natural language description of the current task objective
+
+action_space:
+  type: object
+  description: Re-allocation decisions for purchase orders
+  fields:
+    - name: reallocations
+      type: array
+      description: List of order reassignment actions
+      items:
+        - name: order_id
+          type: string
+        - name: new_supplier_id
+          type: string
+        - name: quantity
+          type: integer
+        - name: priority
+          type: string
+          enum: [urgent, normal, deferrable]
+    - name: cancel_orders
+      type: array
+      description: Order IDs to cancel outright
+    - name: split_orders
+      type: array
+      description: Orders to split across multiple suppliers
+    - name: reasoning
+      type: string
+      description: Agent reasoning for the decisions made
+
+reward:
+  type: float
+  range: [0.0, 1.0]
+  description: >
+    Multi-objective reward combining: stockout avoidance (40%),
+    cost efficiency (30%), lead time minimization (20%),
+    and budget adherence (10%). Partial credit at each step.
+
+tasks:
+  - id: task_single_supplier_failure
+    name: Single supplier failure
+    difficulty: easy
+    description: One supplier has gone offline. Reroute 3 affected orders.
+  - id: task_port_congestion_cascade
+    name: Port congestion cascade
+    difficulty: medium
+    description: >
+      A major port is congested causing 8–10 day delays across 12 orders.
+      Re-route to alternate suppliers and split high-priority orders.
+  - id: task_multi_shock_crisis
+    name: Multi-shock supply crisis
+    difficulty: hard
+    description: >
+      Simultaneous events: one supplier bankrupt, one port closed, raw
+      material shortage, and a 35% price spike. 20+ orders affected.
+      Optimize under hard budget and lead time constraints.
+
+endpoints:
+  reset: POST /reset
+  step: POST /step
+  state: GET /state
+  validate: GET /validate
+
+docker:
+  base_image: python:3.11-slim
+  port: 8080
+  health_check: GET /validate
