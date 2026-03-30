@@ -28,6 +28,30 @@ partial progress — making it suitable for both RL training and LLM evaluation.
 
 ---
 
+## 🖥️ Live Operations Dashboard (For Non-Technical Users)
+
+We have built a beautiful, fully interactive **Operations Dashboard** so that anyone—regardless of technical background—can visually explore and interact with the Supply Chain Environment. You don't need to write code to experience how the AI agent triages crises!
+
+### How to open the Dashboard:
+1. Make sure you have [Node.js](https://nodejs.org/) installed on your computer.
+2. Open your terminal or command prompt and navigate to the dashboard folder:
+   ```bash
+   cd supply-chain-ui
+   ```
+3. Install the required files and start the dashboard by typing:
+   ```bash
+   npm install
+   npm run dev
+   ```
+4. Open your web browser and click the link provided in the terminal (usually `http://localhost:5173`). 
+
+**What you can do in the Dashboard:**
+* **Run a Simulation:** Click **"Local Demo"** to see the system simulate supply chain crises without needing to set up the Python backend.
+* **Visualize Disruption:** Watch as global port closures or factory bankruptcies appear securely at the top of your screen.
+* **Make Decisions:** Try interacting with the "At Risk" orders and click on available vendors to see how an AI agent drafts rerouting commands!
+
+---
+
 ## Environment Description
 
 The agent operates a procurement desk. At each step it receives an **Observation**

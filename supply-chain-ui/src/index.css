@@ -1,0 +1,44 @@
+@import "tailwindcss";
+
+@theme {
+  --color-brand-bg: #0D1117;
+  --color-brand-amber: #F5A623;
+  --color-brand-teal: #00D4AA;
+  --color-brand-red: #FF4444;
+  --color-brand-border: rgba(255, 255, 255, 0.07);
+  --color-brand-card: #161B22;
+
+  --font-mono: 'JetBrains Mono', 'IBM Plex Mono', ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+  --font-sans: 'Sora', 'DM Sans', ui-sans-serif, system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, "Helvetica Neue", Arial, sans-serif;
+}
+
+body {
+  background-color: var(--color-brand-bg);
+  color: #E6EDF3;
+  font-family: var(--font-sans);
+  margin: 0;
+  /* Subtle grid texture */
+  background-image: linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 30px 30px;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+/* Base custom scrollbar */
+::-webkit-scrollbar {
+  width: 8px;
+  height: 8px;
+}
+::-webkit-scrollbar-track {
+  background: var(--color-brand-bg); 
+}
+::-webkit-scrollbar-thumb {
+  background: #30363D; 
+  border-radius: 4px;
+}
+::-webkit-scrollbar-thumb:hover {
+  background: #8B949E; 
+}
