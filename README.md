@@ -1,3 +1,12 @@
+---
+title: Supply Chain Disruption Triage
+emoji: ⛓️
+colorFrom: teal
+colorTo: purple
+sdk: docker
+pinned: false
+---
+
 # Supply Chain Disruption Triage — OpenEnv
 
 > **An agent environment for real-world supply chain crisis management.**
