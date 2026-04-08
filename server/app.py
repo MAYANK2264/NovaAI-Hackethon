@@ -126,5 +126,9 @@ def root():
     return {"message": "Supply Chain Disruption Triage OpenEnv. See /docs for API."}
 
 
+def main():
+    uvicorn.run("server.app:app", host="0.0.0.0", port=8080, reload=False)
+
+
 if __name__ == "__main__":
-    uvicorn.run("server:app", host="0.0.0.0", port=8080, reload=False)
+    main()

@@ -5,3 +5,4 @@ openai==1.40.0
 requests==2.32.3
 python-multipart==0.0.9
 yfinance
+openenv-core>=0.2.0
