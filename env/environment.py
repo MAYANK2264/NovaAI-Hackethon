@@ -7,8 +7,10 @@ from typing import Optional, Dict
 try:
     import yfinance as yf
     from dotenv import load_dotenv
+    # Standard practice to load env vars early for API keys
     load_dotenv()
 except ImportError:
+    # yfinance is optional for some tasks, but good to have for live data
     pass
 
 from env.models import (
@@ -70,6 +72,7 @@ class SupplyChainEnv:
         assert self.obs is not None
         disruptions = []
         if self.task_id == "task_single_supplier_failure":
+            # Manual override for the 'Easy' task to ensure a specific disruption is visible
             sup = self.obs.suppliers[0]
             sup.is_disrupted = True
             disruptions.append(DisruptionEvent(
@@ -78,9 +81,9 @@ class SupplyChainEnv:
                 affected_supplier_ids=[sup.supplier_id],
                 affected_skus=[],
                 severity="high",
-                description="Factory fire offline",
+                description="CRITICAL: Major fire at Apex Components—factory operations halted.",
                 day_occurred=0,
-                delay_days=0,
+                delay_days=15, # Hard shutdown for 15 days
                 price_multiplier=1.0
             ))
         elif self.task_id == "task_port_congestion_cascade":
@@ -158,6 +161,7 @@ class SupplyChainEnv:
         
         num_orders = 8 if self.task_id == "task_single_supplier_failure" else (18 if "port" in self.task_id else 25)
         
+        # Logic to pick which supplier gets the initial 'hit' for each task
         dids = []
         if self.task_id == "task_single_supplier_failure":
             dids = [suppliers[0].supplier_id]

@@ -13,6 +13,7 @@ const TASKS = [
   { id: 'task_live_realworld_crisis', label: '🔴 Live: Web API Data' }
 ];
 
+// Backend URL - defaults to local for dev, but can be overridden
 const API_BASE = import.meta.env.VITE_API_URL || "http://localhost:8080";
 
 const MOCK_STATE = {
@@ -57,7 +58,7 @@ export default function Dashboard() {
   const [backendStatus, setBackendStatus] = useState('Disconnected');
   const autoRunInterval = useRef(null);
 
-  // Ping backend to check if alive
+  // Connection watchdog - checks if FastAPI is responsive every 30s
   useEffect(() => {
     let interval;
     const pingBackend = async () => {
@@ -120,6 +121,7 @@ export default function Dashboard() {
     setAgentReasoning("Evaluating step action...\n" + JSON.stringify(act, null, 2));
 
     if (useMock || !backendAlive) {
+      // Simulation mode for when backend is down/unreachable
       setTimeout(() => {
         const nextStep = sysState.step + 1;
         const newReward = Math.min(1.0, (sysState.reward?.total || 0) + 0.1);
@@ -311,7 +313,7 @@ export default function Dashboard() {
           <div className="flex-1 font-mono font-medium truncate flex items-center gap-4">
             {sysState.disruptions.map((d, i) => (
               <span key={i} className="flex gap-2 items-center before:content-[''] before:block before:w-1 before:h-4 before:bg-white/50">
-                <span className="uppercase text-xs tracking-wider bg-black/30 px-2 py-0.5 rounded">{d.severity}</span>
+                <span className="uppercase text-xs tracking-wider bg-black/30 px-2 py-0.5 rounded italic font-bold">{d.severity} ALERT</span>
                 {d.description || `Disruption on ${d.affected_supplier_ids?.join(',')}`}
               </span>
             ))}
@@ -681,6 +683,7 @@ export default function Dashboard() {
           <div className="flex-1 overflow-y-auto p-4 custom-scrollbar">
             <pre className="text-gray-300 font-mono text-xs leading-relaxed whitespace-pre-wrap">
               <span className="text-gray-600 select-none">agent@triage:~$ cat std.out</span><br/>
+              <span className="text-brand-teal/50 select-none">// LOG: Running mission sequence for {activeTask}</span><br/>
               {agentReasoning}
               <span className="inline-block w-2 h-3 bg-brand-teal ml-1 animate-pulse align-baseline"></span>
             </pre>

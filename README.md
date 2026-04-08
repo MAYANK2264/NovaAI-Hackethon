@@ -7,21 +7,25 @@ sdk: docker
 pinned: false
 ---
 
-# 🌍 Supply Chain Disruption Triage RL Environment
+# 🌍 Supply Chain Disruption Triage AI
 
-> **Expert-level reinforcement learning environment for real-time supply chain triage.**
+> **A production-ready autonomous environment for real-time supply chain resilient triage.**
 
 **Project Lead:** MAYANK CHOUHAN  
-**Corpus:** Supply Chain Disruption Triage
+**Scenario Architect:** Sunoy Roy  
+**UI/UX Lead:** Aman Khan  
+**Corpus:** Supply Chain Resiliency & Logistics Optimization
+**Live Demo (Vercel):** [https://supply-chain-env.vercel.app/](https://supply-chain-env.vercel.app/)  
+**Hugging Face Space:** [https://huggingface.co/spaces/MAYANK22/supply-chain-env](https://huggingface.co/spaces/MAYANK22/supply-chain-env)
 
 ---
 
-## 🎯 Objective
-Simulate a real-world procurement system where an AI agent must reallocate purchase orders during supply chain disruptions. The agent must optimize:
-- **Stockout avoidance (40%)**
-- **Cost efficiency (30%)**
-- **Lead time (20%)**
-- **Budget adherence (10%)**
+## 🎯 Project Overview
+This project simulates the high-stakes world of global procurement. During a disruption (e.g., natural disasters, factory fires, or port strikes), an AI agent must navigate complex trade-offs to ensure continuity. The system evaluates agents based on:
+- **Stockout avoidance (40%)**: Maintaining 100% service levels.
+- **Cost efficiency (30%)**: Minimizing procurement cost variance.
+- **Lead time (20%)**: Respecting critical delivery windows.
+- **Budget adherence (10%)**: Staying within operational limits.
 
 This is an **OpenEnv-compliant** multi-objective constraint-satisfaction environment.
 
@@ -43,8 +47,8 @@ This is an **OpenEnv-compliant** multi-objective constraint-satisfaction environ
 
 ### 2. Local Installation
 ```bash
-git clone https://github.com/MAYANK2264/NovaAI-Hackethon.git
-cd NovaAI-Hackethon/supply-chain-env
+git clone https://github.com/MAYANK2264/NovaAI-Hackethon-openenv.git
+cd NovaAI-Hackethon-openenv
 pip install -r requirements.txt
 ```
 

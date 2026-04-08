@@ -10,7 +10,7 @@ FastAPI server — exposes OpenEnv HTTP interface:
 from __future__ import annotations
 from typing import Optional, Dict
 import uvicorn
-from fastapi import FastAPI, HTTPException
+from fastapi import FastAPI, HTTPException, Body
 from fastapi.responses import JSONResponse
 from pydantic import BaseModel
 
@@ -53,12 +53,24 @@ class StepRequest(BaseModel):
 # Endpoints
 # ---------------------------------------------------------------------------
 
+from fastapi import FastAPI, HTTPException, Body, Request
+
 @app.post("/reset")
-def reset(req: ResetRequest):
+async def reset(request: Request):
     global _env
-    if req.task_id not in TASK_CONFIGS:
-        raise HTTPException(status_code=400, detail=f"Unknown task_id: {req.task_id}. Available: {list(TASK_CONFIGS)}")
-    _env = SupplyChainEnv(task_id=req.task_id)
+    # Fail-safe: Manually parse the body to avoid any FastAPI validation errors
+    try:
+        body = await request.json()
+    except Exception:
+        body = {}
+    
+    # Gracefully default to the primary task if body or task_id is missing
+    task_id = body.get("task_id", "task_single_supplier_failure") if isinstance(body, dict) else "task_single_supplier_failure"
+    
+    if task_id not in TASK_CONFIGS:
+        raise HTTPException(status_code=400, detail=f"Unknown task_id: {task_id}")
+    
+    _env = SupplyChainEnv(task_id=task_id)
     result = _env.reset()
     return result.model_dump()
 
