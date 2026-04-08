@@ -41,8 +41,7 @@ _env: Optional[SupplyChainEnv] = None
 # Request / response schemas for the HTTP layer
 # ---------------------------------------------------------------------------
 
-class ResetRequest(BaseModel):
-    task_id: str = "task_single_supplier_failure"
+# ResetRequest removed to avoid any FastAPI auto-validation conflicts
 
 
 class StepRequest(BaseModel):
